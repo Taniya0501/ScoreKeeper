@@ -16,10 +16,10 @@ const winningScoreSelect = document.querySelector('#playTo');
 let winningScore = 3;
 let isGameOver = false;
 
-function updateScore(player,opponent) {
-	if(!isGameOver) {
+function updateScore(player, opponent) {
+	if (!isGameOver) {
 		player.score += 1;
-		if(player.score === winningScore) {
+		if (player.score === winningScore) {
 			isGameOver = true;
 			player.display.classList.add('winner');
 			opponent.display.classList.add('loser');
@@ -30,27 +30,45 @@ function updateScore(player,opponent) {
 	}
 }
 
-p1.button.addEventListener('click', function() {
-	updateScore(p1,p2);
+p1.button.addEventListener('click', function () {
+	updateScore(p1, p2);
 })
 
-p2Button.addEventListener('click', function() {
-	updateScore(p2,p1);
+p2Button.addEventListener('click', function () {
+	updateScore(p2, p1);
 })
 
 resetButton.addEventListener('click', reset)
 
-winningScoreSelect.addEventListener('change', function() {
+winningScoreSelect.addEventListener('change', function () {
 	winningScore = parseInt(this.value);
 	reset();
 })
 
 function reset() {
 	isGameOver = false;
-	for(p of [p1,p2]) {
+	for (p of [p1, p2]) {
 		p.score = 0;
 		p.display.textContent = 0;
 		p.button.disabled = false;
-		p.display.classList.remove('winner','loser');
+		p.display.classList.remove('winner', 'loser');
 	}
 }
+
+function randColor() {
+	const letters = '0123456789ABCDEF';
+	let color = '#';
+	for (var i = 0; i < 6; i++) {
+		color += letters[Math.floor(Math.random() * 16)];
+	}
+	return color;
+}	
+
+const wishSpan = document.querySelectorAll('span');
+function repeat(){
+	for(let i=2;i<wishSpan.length;++i) {
+		wishSpan[i].style.color = randColor();
+		setTimeout(repeat, 200);
+	}
+}
+repeat();
